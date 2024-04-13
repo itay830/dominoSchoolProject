@@ -40,4 +40,10 @@ public class Game {
     return name;
   }
 
+  public boolean checkWinner() {
+    if (p1.deck.index == 0 || p2.deck.index == 0) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -48,37 +48,83 @@ public class DominoList {
     }
   }
 
-  public void printColumns() {
-    if (index == 0) {return;}
+  public void printColumns(int[] rDominoIndexes) {
+    if (index == 0) {
+      return;
+    }
+    int xSize = 5;
+    String color;
+
     for (int k = 0; k < 2; k++) {
       System.out.print("\n");
 
       for (int i = 0; i < index; i++) {
-        System.out.print("╔═════╗ ");
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+        System.out.print(color + "╔" + "═".repeat(xSize) + "╗ " + Colors.RESET);
       }
-      
+
       System.out.print("\n");
-      for (int i = 0; i < index; i++) {System.out.print("║     ║ ");}
+      for (int i = 0; i < index; i++) {
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+        System.out.print(color + "║     ║ " + Colors.RESET);
+      }
       System.out.print("\n");
 
       for (int i = 0; i < index; i++) {
         int value;
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+
         if (k == 0) {
           value = dominoArr[i].getSidesX();
         } else {
           value = dominoArr[i].getSidesY();
         }
-        System.out.print("║  " + value + "  ║ ");
+        System.out.print(color + "║  " + value + "  ║ " + Colors.RESET);
       }
 
       System.out.print("\n");
-      for (int i = 0; i < index; i++) {System.out.print("║     ║ ");}
-      System.out.print("\n");
-      
       for (int i = 0; i < index; i++) {
-        System.out.print("╚═════╝ ");
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+        System.out.print(color + "║     ║ " + Colors.RESET);
+      }
+      System.out.print("\n");
+
+      for (int i = 0; i < index; i++) {
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+
+        System.out.print(color + "╚" + "═".repeat(xSize) + "╝ " + Colors.RESET);
       }
     }
+    System.out.println("\n");
+  }
+
+  public static int findLight(int[] numArr, int num) {
+    for (int i = 0; i < numArr.length; i++) {
+      if (numArr[i] == num) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   public int findLight(Domino d) {
