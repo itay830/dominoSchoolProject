@@ -59,12 +59,18 @@ public class DominoList {
       System.out.print("\n");
 
       for (int i = 0; i < index; i++) {
+        String str;
+        if (k == 1) {
+          str =  "╠" + "╩".repeat(xSize) + "╣ " ;
+        } else {
+          str =  "╔" + "═".repeat(xSize) + "╗ " ;
+        }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
           color = Colors.GREEN;
         } else {
           color = Colors.RESET;
         }
-        System.out.print(color + "╔" + "═".repeat(xSize) + "╗ " + Colors.RESET);
+        System.out.print(color + str + Colors.RESET);
       }
 
       System.out.print("\n");
@@ -106,15 +112,35 @@ public class DominoList {
       System.out.print("\n");
 
       for (int i = 0; i < index; i++) {
+        String str;
+        if (k == 0) {
+          str = "╠" + "╦".repeat(xSize) + "╣ ";
+        } else {
+          str = "╚" + "═".repeat(xSize) + "╝ ";
+        }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
           color = Colors.GREEN;
         } else {
           color = Colors.RESET;
         }
 
-        System.out.print(color + "╚" + "═".repeat(xSize) + "╝ " + Colors.RESET);
+        System.out.print(color + str + Colors.RESET);
       }
+
+      //
+      System.out.print("\n");
+      for (int i = 0; i < index && k == 0; i++) {
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+
+        System.out.print(color + "╠" + "╬".repeat(xSize) + "╣ " + Colors.RESET);
+      }
+      //
     }
+
     System.out.println("\n");
   }
 
@@ -135,4 +161,14 @@ public class DominoList {
     }
     return -1;
   }
+
+  public int findLight(int num) {
+    for (int i = 0; i < index; i++) {
+      if (dominoArr[i].getSidesX() == i || dominoArr[i].getSidesY() == i) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
 }

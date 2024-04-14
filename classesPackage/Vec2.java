@@ -5,8 +5,8 @@ public class Vec2 {
   public int y;
 
   public Vec2() {
-    x = 0;
-    y = 0;
+    x = -1;
+    y = -1;
   }
 
   public Vec2(int _x, int _y) {

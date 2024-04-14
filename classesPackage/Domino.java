@@ -2,16 +2,13 @@ package classesPackage;
 
 public class Domino {
   private Vec2 sides;
-  private Vec2D ptrDomino;
 
   public Domino() {
     sides = new Vec2(1 + (int) (Math.random() * 6), 1 + (int) (Math.random() * 6));
-    ptrDomino = new Vec2D(null, null);
   }
 
   public Domino(int x, int y) {
     sides = new Vec2(x, y);
-    ptrDomino = new Vec2D(null, null);
   }
 
   public void setSidesX(int num) {
