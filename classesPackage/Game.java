@@ -45,13 +45,14 @@ public class Game {
     if (potentialDominoIndexes.length != 0) {
       p.deck.printColumns(potentialDominoIndexes);
     } else {
+      // TODO: FIX ME
       // while (potentialDominoIndexes.length == 0 && p.deck.index < 7) {
-      //   addToDeckUnique(p.deck);
-      //   potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
+      // addToDeckUnique(p.deck);
+      // potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
       // }
       // if (p.deck.index == 7) {
-      //   turn = !turn;
-      //   return;
+      // turn = !turn;
+      // return;
       // }
       addToDeckUnique(p.deck);
       sleep(2000);
@@ -66,7 +67,7 @@ public class Game {
       System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
       indexChoice = r.nextInt();
       chosenDomino = p.deck.getAt(indexChoice);
-    } while(!dominoMap.add(chosenDomino));
+    } while (!dominoMap.add(chosenDomino));
     p.deck.popAt(indexChoice);
     turn = !turn;
   }
@@ -74,7 +75,7 @@ public class Game {
   public void sleep(int mls) {
     try {
       Thread.sleep(mls);
-    } catch(InterruptedException e) {
+    } catch (InterruptedException e) {
       System.out.println("Interupted!");
     }
   }
@@ -108,13 +109,14 @@ public class Game {
     return name;
   }
 
+  // TODO: FIX ME
   public void addToDeckUnique(DominoList deck) {
     int randCount = 0;
     Domino newDomino = new Domino();
     while (randCount < 50) {
       if (p1.deck.findLight(newDomino) == -1 && p2.deck.findLight(newDomino) == -1
           && dominoMap.rowMap.findLight(newDomino) == -1) {
-            deck.add(newDomino);
+        deck.add(newDomino);
       }
       newDomino = new Domino();
       randCount++;
@@ -125,7 +127,8 @@ public class Game {
   public int[] getPotentialDominoIndexes(DominoList deck) {
     List indexList = new List(7);
     for (int i = 0; i < deck.index; i++) {
-      if (deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesX()) || deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesY())) {
+      if (deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesX())
+          || deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesY())) {
         indexList.add(i);
       }
     }
