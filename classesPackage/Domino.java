@@ -39,37 +39,33 @@ public class Domino {
     return d1.sides.compareLight(d2.sides);
   }
 
-  public static String IsCompatibleString(Domino d1, Domino d2) {
+  public static String IsCompatibleString(Domino d1, Domino d2, boolean left, boolean right) {
     /*
       Takes : Domino for comparision
       Outputs : TODO: Add explanation
     */
-    if (d1.sides.compareLight(d2.sides)) {
+    if (d1.sides.compareLight(d2.sides) && right && left) {
       // Two Possible connections
       return "*";
     }
 
-    if (d1.sides.x == d2.sides.x) {
+    if (d1.sides.x == d2.sides.x && left) {
       return "XX";
     }
 
-    if (d1.sides.y == d2.sides.y) {
+    if (d1.sides.y == d2.sides.y && right) {
       return "YY";
     }
 
-    if (d1.sides.x == d2.sides.y) {
+    if (d1.sides.x == d2.sides.y && right) {
       return "XY";
     }
 
-    if (d1.sides.y == d2.sides.x) {
+    if (d1.sides.y == d2.sides.x && left) {
       return "YX";
     }
 
     return "-";
 
-  }
-
-  public static void Connect(Domino d1, Domino d2) {
-    
   }
 }

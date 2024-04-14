@@ -8,11 +8,9 @@ public class Game {
   public Player p2;
   public DominoMap dominoMap;
   public boolean turn;
-  public Vec2 edges;
 
   public Game() {
     clearConsole();
-    edges = new Vec2(-1, -1);
     dominoMap = new DominoMap();
     turn = Math.round(Math.random() * 2) == 0;
     p1 = new Player(getUniqueName("Player 1"), getDeck());
@@ -32,22 +30,27 @@ public class Game {
     } else {
       p = p2;
     }
-    if (edges.x == -1 || edges.y == -1) {
+    if (dominoMap.edges.getSidesX() == -1 || dominoMap.edges.getSidesY() == -1) {
       p.deck.printColumns(new int[] { 0, 1, 2, 3, 4, 5, 6 });
       System.out.print(p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: ");
       indexChoice = r.nextInt();
-      // ADD TO MAP
-      p.deck.popAt(indexChoice);
+      dominoMap.add(p.deck.popAt(indexChoice));
       turn = !turn;
       return;
     }
     potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
-    p.deck.printColumns(potentialDominoIndexes);
+    if (potentialDominoIndexes.length != 0) {
+      p.deck.printColumns(potentialDominoIndexes);
+    } else {
+      while (potentialDominoIndexes.length == 0) {
+        addToDeckUnique(p.deck);
+        potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
+      }
+    }
+    dominoMap.print();
     System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
     indexChoice = r.nextInt();
-    // ADD TO MAP
-    p.deck.popAt(indexChoice);
-
+    dominoMap.add(p.deck.popAt(indexChoice));
     turn = !turn;
   }
 
@@ -80,15 +83,16 @@ public class Game {
     return name;
   }
 
-  public boolean addToDeckUnique() {
-
+  public boolean addToDeckUnique(DominoList deck) {
+    
     return true;
   }
 
   public int[] getPotentialDominoIndexes(DominoList deck) {
     List indexList = new List(7);
+    System.out.println("(" + dominoMap.edges.getSidesX() + ", " + dominoMap.edges.getSidesY() + ")");
     for (int i = 0; i < deck.index; i++) {
-      if (deck.findLight(edges.x) != -1 || deck.findLight(edges.y) != -1) {
+      if (deck.findLight(dominoMap.edges.getSidesX()) != -1 || deck.findLight(dominoMap.edges.getSidesY()) != -1) {
         indexList.add(i);
       }
     }

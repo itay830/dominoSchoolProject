@@ -1,8 +1,8 @@
 package classesPackage;
 
 class Node {
-  Domino value;
-  Node next;
+  public Domino value;
+  public Node next;
 
   public Node(Domino value) {
     this.value = value;
@@ -43,23 +43,47 @@ public class LinkedList {
     head = newNode;
   }
 
+  public Domino getLeft() {
+    return head.value;
+  }
+
+  public Domino getRight() {
+    Node headCopy = head;
+    while (headCopy.next != null) {
+      headCopy = headCopy.next;
+    }
+    return headCopy.value;
+  }
+
   // public int[] toArray() {
-  //   int[] arr = new int[length];
-  //   Node headCopy = head;
-  //   int i = 0;
-  //   while (headCopy != null) {
-  //     arr[i] = headCopy.value;
-  //     i++;
-  //     headCopy = headCopy.next;
-  //   }
-  //   return arr;
+  // int[] arr = new int[length];
+  // Node headCopy = head;
+  // int i = 0;
+  // while (headCopy != null) {
+  // arr[i] = headCopy.value;
+  // i++;
+  // headCopy = headCopy.next;
+  // }
+  // return arr;
   // }
 
-  // public void print() {
-  //   Node headCopy = head;
-  //   while (headCopy != null) {
-  //     System.out.println(headCopy.value);
-  //     headCopy = headCopy.next;
-  //   }
-  // }
+  public void rPrint() {
+    Node headCopy = head;
+    while (headCopy != null) {
+      System.out.print("(" + headCopy.value.getSidesX() + ", " + headCopy.value.getSidesY() + ")\n");
+      headCopy = headCopy.next;
+    }
+  }
+
+  public void print() {
+    System.out.println("MAP: ");
+
+    Node headCopy = head;
+    System.out.print("╔═╤═╗".repeat(length) + "\n");
+    while (headCopy != null) {
+      System.out.print("║" + headCopy.value.getSidesX() + "│" + headCopy.value.getSidesY() + "║");
+      headCopy = headCopy.next;
+    }
+    System.out.print("\n" + "╚═╧═╝".repeat(length) + "\n");
+  }
 }

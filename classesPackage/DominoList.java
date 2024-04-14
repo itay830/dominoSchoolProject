@@ -57,12 +57,22 @@ public class DominoList {
 
     for (int k = 0; k < 2; k++) {
       System.out.print("\n");
+      for (int i = 0; i < index && k == 0; i++) {
+        if (DominoList.findLight(rDominoIndexes, i) != -1) {
+          color = Colors.GREEN;
+        } else {
+          color = Colors.RESET;
+        }
+        System.out.print(color + "   " + i + "    " + Colors.RESET);
+      }
+      if (k==0) {System.out.print("\n");}
 
       for (int i = 0; i < index; i++) {
         String str;
         if (k == 1) {
           str =  "╠" + "╩".repeat(xSize) + "╣ " ;
         } else {
+          
           str =  "╔" + "═".repeat(xSize) + "╗ " ;
         }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
@@ -127,7 +137,6 @@ public class DominoList {
         System.out.print(color + str + Colors.RESET);
       }
 
-      //
       System.out.print("\n");
       for (int i = 0; i < index && k == 0; i++) {
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
@@ -138,7 +147,6 @@ public class DominoList {
 
         System.out.print(color + "╠" + "╬".repeat(xSize) + "╣ " + Colors.RESET);
       }
-      //
     }
 
     System.out.println("\n");
@@ -164,7 +172,7 @@ public class DominoList {
 
   public int findLight(int num) {
     for (int i = 0; i < index; i++) {
-      if (dominoArr[i].getSidesX() == i || dominoArr[i].getSidesY() == i) {
+      if (dominoArr[i].getSidesX() == num || dominoArr[i].getSidesY() == num) {
         return i;
       }
     }
