@@ -4,7 +4,7 @@ public class Domino {
   private Vec2 sides;
 
   public Domino() {
-    sides = new Vec2(1 + (int) (Math.random() * 6), 1 + (int) (Math.random() * 6));
+    sides = new Vec2((int) (Math.random() * 7), (int) (Math.random() * 7));
   }
 
   public Domino(int x, int y) {

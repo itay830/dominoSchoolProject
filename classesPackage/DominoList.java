@@ -76,15 +76,17 @@ public class DominoList {
         }
         System.out.print(color + "   " + i + "    " + Colors.RESET);
       }
-      if (k==0) {System.out.print("\n");}
+      if (k == 0) {
+        System.out.print("\n");
+      }
 
       for (int i = 0; i < index; i++) {
         String str;
         if (k == 1) {
-          str =  "╠" + "╩".repeat(xSize) + "╣ " ;
+          str = "╠" + "╩".repeat(xSize) + "╣ ";
         } else {
-          
-          str =  "╔" + "═".repeat(xSize) + "╗ " ;
+
+          str = "╔" + "═".repeat(xSize) + "╗ ";
         }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
           color = Colors.GREEN;
