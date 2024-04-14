@@ -28,28 +28,11 @@ public class DominoMap {
       System.out.print("Choose if to go LEFT or RIGHT (l/r): ");
       choice = r.next().charAt(0);
       if (choice == 'l') {
-        path = Domino.IsCompatibleString(domino, domino, true, false);
-        System.out.println(path);
-        switch (path) {
-          case "XX":
-            rowMap.addStart(new Domino(domino.getSidesY(), domino.getSidesX()));
-            break;
-          case "YX":
-            rowMap.addStart(new Domino(domino.getSidesX(), domino.getSidesY()));
-            break;
-        }
+        path = Domino.IsCompatibleString(domino, edges, true, false);
       } else if (choice == 'r') {
-        path = Domino.IsCompatibleString(domino, domino, false, true);
-        System.out.println(path);
-        switch (path) {
-          case "YY":
-            rowMap.addEnd(new Domino(domino.getSidesY(), domino.getSidesX()));
-            break;
-          case "XY":
-            rowMap.addEnd(new Domino(domino.getSidesX(), domino.getSidesY()));
-            break;
-        }
+        path = Domino.IsCompatibleString(domino, edges, false, true);
       }
+      addToMapWithPath(path, domino);
       edges.setSidesX(rowMap.getLeft().getSidesX());
       edges.setSidesY(rowMap.getRight().getSidesY());
     } else {

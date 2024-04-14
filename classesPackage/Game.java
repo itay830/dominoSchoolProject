@@ -24,6 +24,7 @@ public class Game {
     Player p;
     int[] potentialDominoIndexes;
     int indexChoice;
+    Domino chosenDomino;
     clearConsole();
     if (turn) {
       p = p1;
@@ -31,7 +32,9 @@ public class Game {
       p = p2;
     }
     if (dominoMap.edges.getSidesX() == -1 || dominoMap.edges.getSidesY() == -1) {
+      sleep(500);
       p.deck.printColumns(new int[] { 0, 1, 2, 3, 4, 5, 6 });
+      sleep(500);
       System.out.print(p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: ");
       indexChoice = r.nextInt();
       dominoMap.add(p.deck.popAt(indexChoice));
@@ -42,16 +45,38 @@ public class Game {
     if (potentialDominoIndexes.length != 0) {
       p.deck.printColumns(potentialDominoIndexes);
     } else {
-      while (potentialDominoIndexes.length == 0) {
-        addToDeckUnique(p.deck);
-        potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
-      }
+      // while (potentialDominoIndexes.length == 0 && p.deck.index < 7) {
+      //   addToDeckUnique(p.deck);
+      //   potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
+      // }
+      // if (p.deck.index == 7) {
+      //   turn = !turn;
+      //   return;
+      // }
+      addToDeckUnique(p.deck);
+      sleep(2000);
+      System.out.println(Colors.RED + "You have no possible connection. +1 DOMINO" + Colors.RESET);
+      turn = !turn;
+      return;
     }
+    sleep(500);
     dominoMap.print();
-    System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
-    indexChoice = r.nextInt();
-    dominoMap.add(p.deck.popAt(indexChoice));
+    sleep(300);
+    do {
+      System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
+      indexChoice = r.nextInt();
+      chosenDomino = p.deck.getAt(indexChoice);
+    } while(!dominoMap.add(chosenDomino));
+    p.deck.popAt(indexChoice);
     turn = !turn;
+  }
+
+  public void sleep(int mls) {
+    try {
+      Thread.sleep(mls);
+    } catch(InterruptedException e) {
+      System.out.println("Interupted!");
+    }
   }
 
   public void clearConsole() {
@@ -83,16 +108,24 @@ public class Game {
     return name;
   }
 
-  public boolean addToDeckUnique(DominoList deck) {
-    
-    return true;
+  public void addToDeckUnique(DominoList deck) {
+    int randCount = 0;
+    Domino newDomino = new Domino();
+    while (randCount < 50) {
+      if (p1.deck.findLight(newDomino) == -1 && p2.deck.findLight(newDomino) == -1
+          && dominoMap.rowMap.findLight(newDomino) == -1) {
+            deck.add(newDomino);
+      }
+      newDomino = new Domino();
+      randCount++;
+    }
+    deck.add(newDomino);
   }
 
   public int[] getPotentialDominoIndexes(DominoList deck) {
     List indexList = new List(7);
-    System.out.println("(" + dominoMap.edges.getSidesX() + ", " + dominoMap.edges.getSidesY() + ")");
     for (int i = 0; i < deck.index; i++) {
-      if (deck.findLight(dominoMap.edges.getSidesX()) != -1 || deck.findLight(dominoMap.edges.getSidesY()) != -1) {
+      if (deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesX()) || deck.getAt(i).getSides().compareLight(dominoMap.edges.getSidesY())) {
         indexList.add(i);
       }
     }

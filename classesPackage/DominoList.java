@@ -37,6 +37,17 @@ public class DominoList {
     return poppedD;
   }
 
+  public Domino getAt(int findIndex) {
+    if (index == 0) {
+      return new Domino(-1, -1);
+    } else if (findIndex >= index) {
+      findIndex = index - 1;
+    } else if (findIndex < 0) {
+      findIndex = 0;
+    }
+    return dominoArr[findIndex];
+  }
+
   private void expand() {
     Domino[] dominoArrCopy = new Domino[dominoArr.length];
     for (int i = 0; i < dominoArr.length; i++) {

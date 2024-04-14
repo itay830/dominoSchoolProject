@@ -55,17 +55,18 @@ public class LinkedList {
     return headCopy.value;
   }
 
-  // public int[] toArray() {
-  // int[] arr = new int[length];
-  // Node headCopy = head;
-  // int i = 0;
-  // while (headCopy != null) {
-  // arr[i] = headCopy.value;
-  // i++;
-  // headCopy = headCopy.next;
-  // }
-  // return arr;
-  // }
+  public int findLight(Domino domino) {
+    Node headCopy = head;
+    int index = 0;
+    while (headCopy != null) {
+      if (Domino.IsCompatibleBoolean(domino, headCopy.value)) {
+        return index;
+      }
+      index++;
+      headCopy = headCopy.next;
+    }
+    return -1;
+  }
 
   public void rPrint() {
     Node headCopy = head;

@@ -6,8 +6,5 @@ class mainProg {
     while (!game.IsWinner()) {
       game.logic();
     }
-
-    
-
   }
 }

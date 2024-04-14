@@ -22,6 +22,10 @@ public class Vec2 {
     return (this.x == v2.x && this.y == v2.y) || (this.x == v2.y && this.y == v2.x);
   }
 
+  public boolean compareLight(int num) {
+    return (this.x == num || this.y == num);
+  }
+
   public void flip() {
     int sideXTemp = x;
     x = y;
