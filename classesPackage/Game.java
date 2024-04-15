@@ -8,9 +8,12 @@ public class Game {
   public Player p2;
   public DominoMap dominoMap;
   public boolean turn;
+  public boolean running;
 
   public Game() {
     clearConsole();
+    printRules();
+    running = true;
     dominoMap = new DominoMap();
     turn = Math.round(Math.random() * 2) == 0;
     p1 = new Player(getUniqueName("Player 1"), getDeck());
@@ -20,22 +23,45 @@ public class Game {
     }
   }
 
+  public static void printRules() {
+    System.out.println("RULES :\n" + Colors.RED +
+    "1. Each one goes on his TURN!\n" + Colors.GREEN +
+    "2. GREEN DOMINO means it has CONNECTIONS.\n" + Colors.BLUE +
+    "3. CONNECTIONS are when two DOMINOS share the same VALUE.\n" + Colors.PURPLE +
+    "4. I got bored explaining the rules... Guess the other rules by yourself :/" + Colors.RESET);
+    System.out.println("Understood  :) (write something :3)? ");
+    r.next();
+  }
+
   public void logic() {
     Player p;
     int[] potentialDominoIndexes;
     int indexChoice;
     Domino chosenDomino;
     clearConsole();
+
+    // if (getPotentialDominoIndexes(p1.deck).length == 0 && getPotentialDominoIndexes(p2.deck).length == 0
+    //     && p1.deck.index >= 7 && p2.deck.index >= 7) {
+    //   System.out.println(Colors.BLUE + p1.name + "'s deck:" + Colors.RESET);
+    //   p1.deck.printColumns(new int[] {});
+    //   System.out.println(Colors.PURPLE + p2.name + "'s deck:" + Colors.RESET);
+    //   p2.deck.printColumns(new int[] {});
+    //   System.out.println(Colors.GREEN_BG
+    //       + "Both players have no possible connections and both have full decks! IT'S A DRAW!" + Colors.RESET);
+    //   running = false;
+    //   sleep(5000);
+    // }
+
     if (turn) {
       p = p1;
     } else {
       p = p2;
     }
     if (dominoMap.edges.getSidesX() == -1 || dominoMap.edges.getSidesY() == -1) {
-      sleep(500);
       p.deck.printColumns(new int[] { 0, 1, 2, 3, 4, 5, 6 });
       sleep(500);
       System.out.print(p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: ");
+      sleep(500);
       indexChoice = r.nextInt();
       dominoMap.add(p.deck.popAt(indexChoice));
       turn = !turn;
@@ -45,30 +71,36 @@ public class Game {
     if (potentialDominoIndexes.length != 0) {
       p.deck.printColumns(potentialDominoIndexes);
     } else {
-      // TODO: FIX ME
-      // while (potentialDominoIndexes.length == 0 && p.deck.index < 7) {
-      // addToDeckUnique(p.deck);
-      // potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
-      // }
-      // if (p.deck.index == 7) {
-      // turn = !turn;
-      // return;
-      // }
-      addToDeckUnique(p.deck);
-      sleep(2000);
-      System.out.println(Colors.RED + "You have no possible connection. +1 DOMINO" + Colors.RESET);
+      /*
+       * while (potentialDominoIndexes.length == 0 && p.deck.index < 7) {
+       * addToDeckUnique(p.deck);
+       * potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
+       * }
+       * if (p.deck.index == 7) {
+       * turn = !turn;
+       * return;
+       * }
+       */
+      if (p.deck.index >= 7) {
+        System.out.println(
+            Colors.RED + p.name + " has no possible connections and\nhas a full deck! NEXT TURN!" + Colors.RESET);
+      } else {
+        addToDeckUnique(p.deck);
+        System.out.println(Colors.RED + p.name + " has no possible connection. +1 DOMINO. NEXT TURN!" + Colors.RESET);
+      }
+      sleep(1500);
       turn = !turn;
       return;
     }
-    sleep(500);
     dominoMap.print();
-    sleep(300);
+    sleep(500);
     do {
       System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
       indexChoice = r.nextInt();
       chosenDomino = p.deck.getAt(indexChoice);
     } while (!dominoMap.add(chosenDomino));
     p.deck.popAt(indexChoice);
+    checkWinner();
     turn = !turn;
   }
 
@@ -117,6 +149,7 @@ public class Game {
       if (p1.deck.findLight(newDomino) == -1 && p2.deck.findLight(newDomino) == -1
           && dominoMap.rowMap.findLight(newDomino) == -1) {
         deck.add(newDomino);
+        return;
       }
       newDomino = new Domino();
       randCount++;
@@ -135,15 +168,14 @@ public class Game {
     return indexList.toArray();
   }
 
-  public boolean IsWinner() {
+  public void checkWinner() {
     if (p1.deck.index == 0) {
-      System.out.println(p1.name + " HAS WON!!!");
-      return true;
+      System.out.println(Colors.GREEN_BG + p1.name + " HAS WON!!!" + Colors.RESET);
+      running = false;
     }
     if (p2.deck.index == 0) {
-      System.out.println(p2.name + " HAS WON!!!");
-      return true;
+      System.out.println(Colors.GREEN_BG + p2.name + " HAS WON!!!" + Colors.RESET);
+      running = false;
     }
-    return false;
   }
 }

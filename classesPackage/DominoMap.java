@@ -25,8 +25,9 @@ public class DominoMap {
       System.out.println(Colors.RED + "NO POSSIBLE CONNECTIONS!!!" + Colors.RESET);
       return false;
     } else if (path == "*") {
-      System.out.print("Choose if to go LEFT or RIGHT (l/r): ");
+      System.out.print("Choose if to go LEFT or RIGHT (l/r, default is 'l'): ");
       choice = r.next().charAt(0);
+      if (choice != 'l' && choice != 'r') {choice = 'l';}
       if (choice == 'l') {
         path = Domino.IsCompatibleString(domino, edges, true, false);
       } else if (choice == 'r') {

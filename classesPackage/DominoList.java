@@ -59,6 +59,7 @@ public class DominoList {
     }
   }
 
+
   public void printColumns(int[] rDominoIndexes) {
     if (index == 0) {
       return;
