@@ -1,5 +1,7 @@
 package classesPackage;
 
+// Almost the same as 'List' but with 'Domino' and has more functions that work accordingly ->
+
 public class DominoList {
   public Domino[] dominoArr;
   public int index;
@@ -37,6 +39,7 @@ public class DominoList {
     return poppedD;
   }
 
+  // Only gets a 'Domino' from the 'dominoArr'.
   public Domino getAt(int findIndex) {
     if (index == 0) {
       return new Domino(-1, -1);
@@ -59,7 +62,7 @@ public class DominoList {
     }
   }
 
-
+  // Special way of printing the 'Dominos'.
   public void printColumns(int[] rDominoIndexes) {
     if (index == 0) {
       return;
@@ -166,6 +169,9 @@ public class DominoList {
     System.out.println("\n");
   }
 
+  // Cheks if an 'int' is in an 'int' arr (int[]). Just didn't know where to put
+  // it neatly :(
+  // TODO: Put it neatly
   public static int findLight(int[] numArr, int num) {
     for (int i = 0; i < numArr.length; i++) {
       if (numArr[i] == num) {

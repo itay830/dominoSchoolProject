@@ -1,5 +1,7 @@
 package classesPackage;
 
+// A class for holding a "dynamic" arr => The size of the array changes accordingly ->
+
 public class List {
   int[] arr;
   int index;
@@ -13,6 +15,7 @@ public class List {
     arr = new int[size];
   }
 
+  // Add an item to the List
   public void add(int d) {
     arr[index] = d;
     index++;
@@ -21,7 +24,8 @@ public class List {
     }
   }
 
-  public void expand() {
+  // Get more mem`
+  private void expand() {
     int[] arrCopy = new int[arr.length];
     for (int i = 0; i < arr.length; i++) {
       arrCopy[i] = arr[i];
@@ -32,6 +36,7 @@ public class List {
     }
   }
 
+  // Get and remove the element from the list
   public int popAt(int popIndex) {
     if (index == 0) {
       return 0;
@@ -48,6 +53,7 @@ public class List {
     return popped;
   }
 
+  // Converts to regular Java int[]
   public int[] toArray() {
     int[] newArr = new int[index];
     for (int i = 0; i < index; i++) {

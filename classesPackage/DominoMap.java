@@ -2,6 +2,8 @@ package classesPackage;
 
 import java.util.Scanner;
 
+// A class for holding and printing the game board.
+
 public class DominoMap {
   public LinkedList rowMap;
   public Domino edges;
@@ -12,6 +14,7 @@ public class DominoMap {
     edges = new Domino(-1, -1);
   }
 
+  // Add the domino the right way to the map.
   public boolean add(Domino domino) {
     if (rowMap.head == null) {
       rowMap.addStart(domino);
@@ -27,7 +30,9 @@ public class DominoMap {
     } else if (path == "*") {
       System.out.print("Choose if to go LEFT or RIGHT (l/r, default is 'l'): ");
       choice = r.next().charAt(0);
-      if (choice != 'l' && choice != 'r') {choice = 'l';}
+      if (choice != 'l' && choice != 'r') {
+        choice = 'l';
+      }
       if (choice == 'l') {
         path = Domino.IsCompatibleString(domino, edges, true, false);
       } else if (choice == 'r') {
@@ -42,6 +47,8 @@ public class DominoMap {
     return true;
   }
 
+  // Uses the 'path' string that is given by 'Domino.IsCompatibleString' to place
+  // the domino in the map the right way.
   public void addToMapWithPath(String path, Domino domino) {
     switch (path) {
       case "XX":
@@ -61,6 +68,7 @@ public class DominoMap {
     edges.setSidesY(rowMap.getRight().getSidesY());
   }
 
+  // Prints the board (prints a 'LinkedList').
   public void print() {
     rowMap.print();
   }

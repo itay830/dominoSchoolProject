@@ -2,13 +2,15 @@ package classesPackage;
 
 import java.util.*;
 
+// A class that holds and calls all the necessary 'data' and 'functions'. THE GAME ITSELF! 
+
 public class Game {
   public static Scanner r = new Scanner(System.in);
-  public Player p1;
-  public Player p2;
-  public DominoMap dominoMap;
-  public boolean turn;
-  public boolean running;
+  public Player p1; // Player 1
+  public Player p2; // Player 2
+  public DominoMap dominoMap; // The game board
+  public boolean turn; // Turn...
+  public boolean running; // For 'main loop' to keep running or stop...
 
   public Game() {
     clearConsole();
@@ -16,40 +18,61 @@ public class Game {
     running = true;
     dominoMap = new DominoMap();
     turn = Math.round(Math.random() * 2) == 0;
-    p1 = new Player(getUniqueName("Player 1"), getDeck());
-    p2 = new Player(getUniqueName("Player 2"), getDeck());
+    p1 = new Player(getUniqueName("Player 1"), getDeck(), Colors.PURPLE);
+    p2 = new Player(getUniqueName("Player 2"), getDeck(), Colors.CYAN);
     if (p1.name == p2.name) { // NO DUPLICATE NAMES :)
       p2.name = "theSecondOne'" + p2.name + "'";
     }
   }
 
+  // Prints the game rules... In some way. . . My head really hurts :(
   public static void printRules() {
-    System.out.println("RULES :\n" + Colors.RED +
-    "1. Each one goes on his TURN!\n" + Colors.GREEN +
-    "2. GREEN DOMINO means it has CONNECTIONS.\n" + Colors.BLUE +
-    "3. CONNECTIONS are when two DOMINOS share the same VALUE.\n" + Colors.PURPLE +
-    "4. I got bored explaining the rules... Guess the other rules by yourself :/" + Colors.RESET);
-    System.out.println("Understood  :) (write something :3)? ");
+    System.out.println(Colors.BOLD +
+        "----------     --------     ********   --------  ----    ----   --------        ------------    ------      ********   ------------ \n"
+        +
+        "************  **********   ----------  ********  *****   ****  **********       ************   ********    ----------  ************ \n"
+        +
+        "--        -- ----    ---- ************   ----    ------  ---- ----    ----      ----          ----------  ************ ----         \n"
+        +
+        "**        ** ***      *** ---  --  ---   ****    ************ ***      ***      ****  ****** ****    **** ---  --  --- ************ \n"
+        +
+        "--        -- ---      --- ***  **  ***   ----    ------------ ---      ---      ----  ------ ------------ ***  **  *** ------------ \n"
+        +
+        "**        ** ****    **** ---  --  ---   ****    ****  ****** ****    ****      ****    **** ************ ---  --  --- ****         \n"
+        +
+        "------------  ----------  ***  **  *** --------  ----   -----  ----------       ------------ ----    ---- ***  **  *** ------------ \n"
+        +
+        "**********     ********   ---      --- ********  ****    ****   ********        ************ ****    **** ---      --- ************ \n");
+    System.out.println(Colors.CYAN_UNDERLINED + "RULES :\n" + Colors.RESET + Colors.RED +
+        "1. Each one goes on his TURN!\n" + Colors.GREEN +
+        "2. GREEN DOMINO means it has CONNECTIONS.\n" + Colors.BLUE +
+        "3. CONNECTIONS are when two DOMINOS share the same VALUE.\n" + Colors.PURPLE +
+        "4. I got bored explaining the rules... Guess the other rules by yourself :/" + Colors.RESET);
+    System.out.print("Understood  :) (write something :3)? ");
     r.next();
   }
 
+  // Logic -_- => The way the game works...
   public void logic() {
-    Player p;
-    int[] potentialDominoIndexes;
-    int indexChoice;
-    Domino chosenDomino;
+    Player p; // Playing 'Player'
+    int[] potentialDominoIndexes; // The green 'Dominos'
+    int indexChoice; // Chosen 'index' of the 'Domino' 
+    Domino chosenDomino; // -_-
     clearConsole();
 
-    // if (getPotentialDominoIndexes(p1.deck).length == 0 && getPotentialDominoIndexes(p2.deck).length == 0
-    //     && p1.deck.index >= 7 && p2.deck.index >= 7) {
-    //   System.out.println(Colors.BLUE + p1.name + "'s deck:" + Colors.RESET);
-    //   p1.deck.printColumns(new int[] {});
-    //   System.out.println(Colors.PURPLE + p2.name + "'s deck:" + Colors.RESET);
-    //   p2.deck.printColumns(new int[] {});
-    //   System.out.println(Colors.GREEN_BG
-    //       + "Both players have no possible connections and both have full decks! IT'S A DRAW!" + Colors.RESET);
-    //   running = false;
-    //   sleep(5000);
+    // TODO: A draw moment.
+    // if (getPotentialDominoIndexes(p1.deck).length == 0 &&
+    // getPotentialDominoIndexes(p2.deck).length == 0
+    // && p1.deck.index >= 7 && p2.deck.index >= 7) {
+    // System.out.println(Colors.BLUE + p1.name + "'s deck:" + Colors.RESET);
+    // p1.deck.printColumns(new int[] {});
+    // System.out.println(Colors.PURPLE + p2.name + "'s deck:" + Colors.RESET);
+    // p2.deck.printColumns(new int[] {});
+    // System.out.println(Colors.GREEN_BG
+    // + "Both players have no possible connections and both have full decks! IT'S A
+    // DRAW!" + Colors.RESET);
+    // running = false;
+    // sleep(5000);
     // }
 
     if (turn) {
@@ -57,21 +80,25 @@ public class Game {
     } else {
       p = p2;
     }
+    // If it's the first turn
     if (dominoMap.edges.getSidesX() == -1 || dominoMap.edges.getSidesY() == -1) {
       p.deck.printColumns(new int[] { 0, 1, 2, 3, 4, 5, 6 });
       sleep(500);
-      System.out.print(p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: ");
+      System.out.print(p.color + p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: " + Colors.RESET);
       sleep(500);
       indexChoice = r.nextInt();
       dominoMap.add(p.deck.popAt(indexChoice));
       turn = !turn;
       return;
     }
+
     potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
+    // Check if 'p' can move.
     if (potentialDominoIndexes.length != 0) {
       p.deck.printColumns(potentialDominoIndexes);
     } else {
       /*
+       * TODO: Change the taking a peace rule to 9*9
        * while (potentialDominoIndexes.length == 0 && p.deck.index < 7) {
        * addToDeckUnique(p.deck);
        * potentialDominoIndexes = getPotentialDominoIndexes(p.deck);
@@ -81,6 +108,7 @@ public class Game {
        * return;
        * }
        */
+      // 'p' takes a peace and skips it's turn.
       if (p.deck.index >= 7) {
         System.out.println(
             Colors.RED + p.name + " has no possible connections and\nhas a full deck! NEXT TURN!" + Colors.RESET);
@@ -95,28 +123,32 @@ public class Game {
     dominoMap.print();
     sleep(500);
     do {
-      System.out.print(p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: ");
+      System.out.print(p.color + p.name + "'s turn. Enter the INDEX of the DOMINO you want to put: " + Colors.RESET);
       indexChoice = r.nextInt();
       chosenDomino = p.deck.getAt(indexChoice);
-    } while (!dominoMap.add(chosenDomino));
+    } while (!dominoMap.add(chosenDomino)); // Until 'p' chosses a green "Domino".
     p.deck.popAt(indexChoice);
     checkWinner();
+    sleep(750);
     turn = !turn;
   }
 
+  // Makes the thread busy for some time. For better gameplay.
   public void sleep(int mls) {
     try {
       Thread.sleep(mls);
     } catch (InterruptedException e) {
-      System.out.println("Interupted!");
+      System.out.println(Colors.RED + "Interupted (System error, NOT PART OF THE GAME)!" + Colors.RESET);
     }
   }
 
+  // You wont belive it... but it clears the console. . .
   public void clearConsole() {
     System.out.print("\033[H\033[2J"); // ANSI to clear the console
     System.out.flush(); // Empting the buffer
   }
 
+  // Gives you a deck of random unique 'Dominos'.
   public DominoList getDeck() {
     DominoList dList = new DominoList(7);
     for (int i = 0; i < 7; i++) {
@@ -132,6 +164,7 @@ public class Game {
     return dList;
   }
 
+  // Gets a unique name with more than a 1 character.
   public String getUniqueName(String greetingName) {
     String name = "";
     while (name.length() < 2) {
@@ -141,7 +174,7 @@ public class Game {
     return name;
   }
 
-  // TODO: FIX ME
+  // Add to the 'p' deck a unique 'Domino'
   public void addToDeckUnique(DominoList deck) {
     int randCount = 0;
     Domino newDomino = new Domino();
@@ -157,6 +190,8 @@ public class Game {
     deck.add(newDomino);
   }
 
+  // Returns an 'int' arr ('int[]') with the indexes of the green 'Dominos' to
+  // highlight (Color green).
   public int[] getPotentialDominoIndexes(DominoList deck) {
     List indexList = new List(7);
     for (int i = 0; i < deck.index; i++) {
@@ -168,13 +203,16 @@ public class Game {
     return indexList.toArray();
   }
 
+  // Check if one of the 'p's has an empty deck (Wins).
   public void checkWinner() {
     if (p1.deck.index == 0) {
-      System.out.println(Colors.GREEN_BG + p1.name + " HAS WON!!!" + Colors.RESET);
+      clearConsole();
+      System.out.println(Colors.PURPLE_BG + p1.name + " HAS WON!!! YAHOO" + Colors.RESET);
       running = false;
     }
-    if (p2.deck.index == 0) {
-      System.out.println(Colors.GREEN_BG + p2.name + " HAS WON!!!" + Colors.RESET);
+    else if (p2.deck.index == 0) {
+      clearConsole();
+      System.out.println(Colors.CYAN_BG + p2.name + " HAS WON!!! YEE PEE KA YEY" + Colors.RESET);
       running = false;
     }
   }

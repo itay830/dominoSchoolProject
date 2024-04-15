@@ -1,5 +1,9 @@
 package classesPackage;
 
+// Classes for building something similar to a "Linked List".
+
+// A class that acts like a basic one 'Pointer' 'Node'. 'value' is a 'Domino'...
+
 class Node {
   public Domino value;
   public Node next;
@@ -10,6 +14,8 @@ class Node {
   }
 }
 
+// A class for holding a sequence of 'Dominos' like in a "Linked List".
+
 public class LinkedList {
   public Node head;
   public int length;
@@ -19,6 +25,7 @@ public class LinkedList {
     length = 0;
   }
 
+  // Add a 'Domino' 'Node' to the end of the 'Linked List'.
   public void addEnd(Domino value) {
     length++;
     if (head == null) {
@@ -32,6 +39,7 @@ public class LinkedList {
     headCopy.next = new Node(value);
   }
 
+  // Add a 'Domino' 'Node' to the start of the 'Linked List'.
   public void addStart(Domino value) {
     length++;
     if (head == null) {
@@ -43,10 +51,12 @@ public class LinkedList {
     head = newNode;
   }
 
+  // Get the 'domino' that is in the leftest side of the 'Linked List'.
   public Domino getLeft() {
     return head.value;
   }
 
+  // Get the 'domino' that is in the rightest side of the 'Linked List'.
   public Domino getRight() {
     Node headCopy = head;
     while (headCopy.next != null) {
@@ -55,6 +65,8 @@ public class LinkedList {
     return headCopy.value;
   }
 
+  // Returns the "index" (Not really an index but you got it...) of the lighlty
+  // compared 'Domino' to some 'int' value. If not found return '-1'
   public int findLight(Domino domino) {
     Node headCopy = head;
     int index = 0;
@@ -68,6 +80,7 @@ public class LinkedList {
     return -1;
   }
 
+  // Prints the linked list regulary *HAS NO USE!*
   public void rPrint() {
     Node headCopy = head;
     while (headCopy != null) {
@@ -76,6 +89,7 @@ public class LinkedList {
     }
   }
 
+  // Special way of printing the game map.
   public void print() {
     System.out.println("MAP: ");
 

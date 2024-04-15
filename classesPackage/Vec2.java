@@ -1,5 +1,7 @@
 package classesPackage;
 
+// Almost the same as Vec2D but with "int"'s and has 'compateLight'
+
 public class Vec2 {
   public int x;
   public int y;
@@ -22,6 +24,7 @@ public class Vec2 {
     return (this.x == v2.x && this.y == v2.y) || (this.x == v2.y && this.y == v2.x);
   }
 
+  // x == num || y == num
   public boolean compareLight(int num) {
     return (this.x == num || this.y == num);
   }
