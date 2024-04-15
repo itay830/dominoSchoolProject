@@ -56,7 +56,7 @@ public class Game {
   public void logic() {
     Player p; // Playing 'Player'
     int[] potentialDominoIndexes; // The green 'Dominos'
-    int indexChoice; // Chosen 'index' of the 'Domino' 
+    int indexChoice; // Chosen 'index' of the 'Domino'
     Domino chosenDomino; // -_-
     clearConsole();
 
@@ -149,6 +149,8 @@ public class Game {
   }
 
   // Gives you a deck of random unique 'Dominos'.
+  // IT WASN'T WRITTEN THAT TWO PLAYERS CAN'T HAVE SIMILAR DOMINOS => The players
+  // have a chance to hold similar decks! It's not a bug it's a feature!
   public DominoList getDeck() {
     DominoList dList = new DominoList(7);
     for (int i = 0; i < 7; i++) {
@@ -209,8 +211,7 @@ public class Game {
       clearConsole();
       System.out.println(Colors.PURPLE_BG + p1.name + " HAS WON!!! YAHOO" + Colors.RESET);
       running = false;
-    }
-    else if (p2.deck.index == 0) {
+    } else if (p2.deck.index == 0) {
       clearConsole();
       System.out.println(Colors.CYAN_BG + p2.name + " HAS WON!!! YEE PEE KA YEY" + Colors.RESET);
       running = false;
