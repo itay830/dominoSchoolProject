@@ -3,7 +3,6 @@ package classesPackage;
 // A static class for holding ANSI Strings for printing colorful deep messages :3
 
 public class Colors {
-  // TODO: When learn 'final' use 'final' :#
   public static String RESET = "\u001B[0m";
   public static String BLACK = "\u001B[30m";
   public static String WHITE = "\u001B[37m";
@@ -19,5 +18,6 @@ public class Colors {
   public static String CYAN_BG = "\033[46m";
 
   public static String CYAN_UNDERLINED = "\033[4;36m";
-
 }
+
+

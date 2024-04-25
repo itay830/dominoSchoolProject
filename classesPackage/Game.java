@@ -11,17 +11,18 @@ public class Game {
   public DominoMap dominoMap; // The game board
   public boolean turn; // Turn...
   public boolean running; // For 'main loop' to keep running or stop...
-
+  int turnsCount; // Turns counter.
   public Game() {
     clearConsole();
     printRules();
+    turnsCount = 0;
     running = true;
     dominoMap = new DominoMap();
     turn = Math.round(Math.random() * 2) == 0;
-    p1 = new Player(getUniqueName("Player 1"), getDeck(), Colors.PURPLE);
-    p2 = new Player(getUniqueName("Player 2"), getDeck(), Colors.CYAN);
-    if (p1.name == p2.name) { // NO DUPLICATE NAMES :)
-      p2.name = "theSecondOne'" + p2.name + "'";
+    p1 = new Player(getName("Player 1"), getDeck(), Colors.PURPLE);
+    p2 = new Player(getName("Player 2"), getDeck(), Colors.CYAN);
+    if (p1.name.equals(p2.name)) { // NO DUPLICATE NAMES :)
+      p2.name = "theSecond" + p2.name;
     }
   }
 
@@ -54,6 +55,7 @@ public class Game {
 
   // Logic -_- => The way the game works...
   public void logic() {
+    turnsCount++;
     Player p; // Playing 'Player'
     int[] potentialDominoIndexes; // The green 'Dominos'
     int indexChoice; // Chosen 'index' of the 'Domino'
@@ -61,19 +63,19 @@ public class Game {
     clearConsole();
 
     // TODO: A draw moment.
-    // if (getPotentialDominoIndexes(p1.deck).length == 0 &&
-    // getPotentialDominoIndexes(p2.deck).length == 0
-    // && p1.deck.index >= 7 && p2.deck.index >= 7) {
-    // System.out.println(Colors.BLUE + p1.name + "'s deck:" + Colors.RESET);
-    // p1.deck.printColumns(new int[] {});
-    // System.out.println(Colors.PURPLE + p2.name + "'s deck:" + Colors.RESET);
-    // p2.deck.printColumns(new int[] {});
-    // System.out.println(Colors.GREEN_BG
-    // + "Both players have no possible connections and both have full decks! IT'S A
-    // DRAW!" + Colors.RESET);
-    // running = false;
-    // sleep(5000);
-    // }
+    if (getPotentialDominoIndexes(p1.deck).length == 0 &&
+        getPotentialDominoIndexes(p2.deck).length == 0 && 
+        p1.deck.index >= 7 && p2.deck.index >= 7 && turnsCount != 1)
+    {
+      System.out.println(Colors.BLUE + p1.name + "'s deck:" + Colors.RESET);
+      p1.deck.printColumns(new int[] {});
+      System.out.println(Colors.PURPLE + p2.name + "'s deck:" + Colors.RESET);
+      p2.deck.printColumns(new int[] {});
+      System.out.println(Colors.GREEN_BG + "Both players have no possible connections and both have full decks! IT'S A DRAW!" + Colors.RESET);
+      running = false;
+      sleep(5000);
+      return;
+    }
 
     if (turn) {
       p = p1;
@@ -81,7 +83,7 @@ public class Game {
       p = p2;
     }
     // If it's the first turn
-    if (dominoMap.edges.getSidesX() == -1 || dominoMap.edges.getSidesY() == -1) {
+    if (turnsCount == 1) {
       p.deck.printColumns(new int[] { 0, 1, 2, 3, 4, 5, 6 });
       sleep(500);
       System.out.print(p.color + p.name + "'s first turn!\nEnter the INDEX of your starting DOMINO: " + Colors.RESET);
@@ -167,7 +169,7 @@ public class Game {
   }
 
   // Gets a unique name with more than a 1 character.
-  public String getUniqueName(String greetingName) {
+  public String getName(String greetingName) {
     String name = "";
     while (name.length() < 2) {
       System.out.print("Enter your name " + greetingName + ": ");

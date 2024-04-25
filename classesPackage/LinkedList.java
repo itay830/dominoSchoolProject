@@ -20,6 +20,15 @@ public class LinkedList {
   public Node head;
   public int length;
 
+  // String.repeat() is only supported in Java 11.
+  public static String repeat(String str, int times) {
+    String newStr = "";
+    for (int i = 0; i < times; i++) {
+      newStr += str;
+    }
+    return newStr;
+  }
+
   public LinkedList() {
     head = null;
     length = 0;
@@ -94,11 +103,11 @@ public class LinkedList {
     System.out.println("MAP: ");
 
     Node headCopy = head;
-    System.out.print("╔═╤═╗".repeat(length) + "\n");
+    System.out.print(repeat("╔═╤═╗", length) + "\n");
     while (headCopy != null) {
       System.out.print("║" + headCopy.value.getSidesX() + "│" + headCopy.value.getSidesY() + "║");
       headCopy = headCopy.next;
     }
-    System.out.print("\n" + "╚═╧═╝".repeat(length) + "\n");
+    System.out.print("\n" + repeat("╚═╧═╝", length) + "\n");
   }
 }

@@ -6,6 +6,15 @@ public class DominoList {
   public Domino[] dominoArr;
   public int index;
 
+  // String.repeat() is only supported in Java 11.
+  public static String repeat(String str, int times) {
+    String newStr = "";
+    for (int i = 0; i < times; i++) {
+      newStr += str;
+    }
+    return newStr;
+  }
+
   public DominoList(int size) {
     if (size <= 0) {
       index = 1;
@@ -87,10 +96,9 @@ public class DominoList {
       for (int i = 0; i < index; i++) {
         String str;
         if (k == 1) {
-          str = "╠" + "╩".repeat(xSize) + "╣ ";
+          str = "╠" + repeat("╩", xSize) + "╣ ";
         } else {
-
-          str = "╔" + "═".repeat(xSize) + "╗ ";
+          str = "╔" + repeat("═", xSize) + "╗ ";
         }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
           color = Colors.GREEN;
@@ -141,9 +149,9 @@ public class DominoList {
       for (int i = 0; i < index; i++) {
         String str;
         if (k == 0) {
-          str = "╠" + "╦".repeat(xSize) + "╣ ";
+          str = "╠" + repeat("╦", xSize) + "╣ ";
         } else {
-          str = "╚" + "═".repeat(xSize) + "╝ ";
+          str = "╚" + repeat("═", xSize) + "╝ ";
         }
         if (DominoList.findLight(rDominoIndexes, i) != -1) {
           color = Colors.GREEN;
@@ -161,8 +169,7 @@ public class DominoList {
         } else {
           color = Colors.RESET;
         }
-
-        System.out.print(color + "╠" + "╬".repeat(xSize) + "╣ " + Colors.RESET);
+        System.out.print(color + "╠" + repeat("╬", xSize) + "╣ " + Colors.RESET);
       }
     }
 
